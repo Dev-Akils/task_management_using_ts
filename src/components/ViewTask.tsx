@@ -1,16 +1,20 @@
 import { useAppDispatch, useAppSelector } from "../store/hooks.ts";
 import { deleteTask, setFilters, selectFilteredTasks, selectFilters } from "../store/taskSlice.ts";
 import { format, parseISO } from "date-fns";
-
+import type { Task, FiltersState } from "../store/types";
 export default function ViewTask() {
   const dispatch = useAppDispatch();
-  const tasksFromStore = useAppSelector(selectFilteredTasks); 
-  const filters = useAppSelector(selectFilters); // current filter state
+  
+
+
+const tasksFromStore: Task[] = useAppSelector(selectFilteredTasks);
+const filters: FiltersState = useAppSelector(selectFilters);
 
   return (
     <div className="w-full min-h-screen bg-gradient-to-t from-[#A06D4D] to-[#E1D8D0] p-6 flex flex-col items-center gap-6">
       <h2 className="text-orange-950 text-5xl font-bold">Your Tasks</h2>
-    {/*Search_Input*/}
+
+      {/* Search Input */}
       <input
         type="text"
         placeholder="Search task by their name"
@@ -19,6 +23,47 @@ export default function ViewTask() {
         className="w-full max-w-2xl px-3 py-3 shadow-lg rounded outline-none"
       />
 
+      {/* Category Filter */}
+      <div className="flex gap-3">
+        {["To Do", "In Progress", "Review", "Completed"].map(cat => (
+          <button
+            key={cat}
+            className={`px-3 py-1 rounded ${
+              filters.categories.includes(cat)
+                ? "bg-orange-900 text-white"
+                : "bg-white text-gray-800"
+            }`}
+            onClick={() => {
+              const newCategories = filters.categories.includes(cat)
+                ? filters.categories.filter(c => c !== cat)
+                : [...filters.categories, cat];
+              dispatch(setFilters({ categories: newCategories }));
+            }}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      {/* Time Window Filter */}
+      <div className="flex gap-3 items-center">
+        <label className="text-gray-800 font-semibold">Last</label>
+        <input
+          type="number"
+          min={0}
+          placeholder="weeks"
+          value={filters.timeWindowWeeks || ""}
+          onChange={(e) =>
+            dispatch(
+              setFilters({ timeWindowWeeks: e.target.value ? Number(e.target.value) : null })
+            )
+          }
+          className="px-2 py-1 rounded shadow w-20 text-center"
+        />
+        <span className="text-gray-800 font-semibold">weeks</span>
+      </div>
+
+      {/* Tasks List */}
       {tasksFromStore.length > 0 ? (
         tasksFromStore.map((task) => (
           <div
@@ -31,6 +76,7 @@ export default function ViewTask() {
                 Start: {task.startDate ? format(parseISO(task.startDate), "MMM dd, yyyy") : "N/A"} <br />
                 End: {task.endDate ? format(parseISO(task.endDate), "MMM dd, yyyy") : "N/A"}
               </p>
+              <h2 className="text-lg font-semibold text-gray-800">{task.category}</h2>
             </div>
 
             <div className="flex gap-3">

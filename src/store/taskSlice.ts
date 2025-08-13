@@ -11,11 +11,14 @@ interface TasksState {
   filters: FiltersState;
 }
 
-const defaultFilters: FiltersState = {
-  categories: ["To Do", "In Progress", "Review", "Completed"],
-  timeWindowWeeks: null,
+export const ALL_CATEGORIES: Category[] = ["To Do", "In Progress", "Review", "Completed"];
+
+export const defaultFilters: FiltersState = {
+  categories: ALL_CATEGORIES,
+  timeWindowWeeks: null ,
   searchText: ""
 };
+
 
 const loadFromLocal = (): Task[] => {
   try {
@@ -91,19 +94,29 @@ export const selectFilteredTasks = (s: RootState) => {
   const { tasks, filters } = s.tasks;
   const search = (filters.searchText || "").toLowerCase().trim();
   const categoriesSet = new Set(filters.categories || []);
-  // time window filter (optional)
-  let timeLimit: Date | null = null;
+
+  let timeLimit: { start: Date; end: Date } | null = null;
   if (filters.timeWindowWeeks) {
-    timeLimit = subDays(new Date(), -(7 * filters.timeWindowWeeks)); // future window - adjust logic as needed
+    const now = new Date();
+    timeLimit = {
+      start: subDays(now, filters.timeWindowWeeks * 7), // X weeks ago
+      end: now,
+    };
   }
+
   return tasks.filter(t => {
+    // Filter by category
     if (!categoriesSet.has(t.category)) return false;
+
+    // Filter by search text
     if (search && !t.name.toLowerCase().includes(search)) return false;
+
+    // Filter by time window
     if (timeLimit) {
-      // keep tasks that start within the time window (customize per your definition)
       const start = new Date(t.startDate);
-      if (start > timeLimit) return false;
+      if (start < timeLimit.start || start > timeLimit.end) return false;
     }
+
     return true;
   });
 };

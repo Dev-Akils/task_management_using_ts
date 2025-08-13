@@ -21,7 +21,7 @@ export default function TaskModal({ open, onClose, initialStart, initialEnd, onC
   if (!open) return null;
   return (<>
 
-    <div className="w-full h-[250px] flex justify-center items-center">
+    <div className="max-w-6xl translate-y-20 flex justify-center items-center ">
       <div
         className="relative h-screen w-[500px] flex flex-col p-4"
         style={{
@@ -55,9 +55,7 @@ export default function TaskModal({ open, onClose, initialStart, initialEnd, onC
             </select>
           </label>
 
-
-
-          <div className="flex gap-3 justify-around">
+        <div className="flex gap-3 justify-around">
             <button type="submit" onClick={onClose} className="bg-white px-20 py-2 rounded text-orange-800 text-lg font-bold hover:bg-orange-100 transition">
               Close
             </button>

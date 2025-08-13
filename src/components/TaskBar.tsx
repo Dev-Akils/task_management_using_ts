@@ -22,12 +22,10 @@ export default function TaskBar({ task, dayWidth, onResizeStart } : { task: Task
   const len = daysBetween(task.startDate, task.endDate) + 1;
   const leftDays = daysBetween(task.startDate, task.startDate); // 0
   const widthPx = Math.max(40, len * dayWidth - 8);
-  console.log(task.name, task.startDate, task.endDate, len);
-
-
+  // console.log(task.name, task.startDate, task.endDate, len);
   return (
     <div className="absolute top-1 left-1 h-8 flex items-center" style={{ transform: `translateX(${leftDays * dayWidth}px)`, width: `${widthPx}px` }}>
-      <div className="h-full w-[200px] rounded bg-orange-700 text-white px-2 flex items-center overflow-hidden text-sm">
+      <div className="h-full rounded bg-orange-700 text-white px-2 flex items-center overflow-hidden text-sm">
         <div className="truncate">{task.name} ({task.category})</div>
         <div className="ml-auto flex gap-1">
           <div onPointerDown={(e)=>{ e.stopPropagation(); onResizeStart(task.id, 'left'); }} className="w-3 cursor-ew-resize" />
