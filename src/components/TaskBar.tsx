@@ -2,8 +2,6 @@
 import { format,  differenceInCalendarDays, parseISO } from "date-fns";
 
 
-// NOTE: This file is a single-file demo component. In a real app, split into smaller files.
-
 type Category = "To Do" | "In Progress" | "Review" | "Completed";
 
 interface TaskLocal {
