@@ -17,16 +17,6 @@ A task management and calendar planner built with **React**, **TypeScript**, and
 
 ---
 
-
-## 🚀 Features
-- 📅 Calendar-based task planning
-- 🏷 Task categories: **To Do**, **In Progress**, **Review**, **Completed**
-- 🖱 Drag-and-drop task resizing
-- 💾 Local storage persistence
-- 🎨 Tailwind CSS styling
-
----
-
 ## ✨ Features
 
 - 📆 **Calendar View** — Plan tasks across days and weeks
