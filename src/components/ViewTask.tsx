@@ -11,7 +11,7 @@ export default function ViewTask() {
     <div className="w-full min-h-screen bg-gradient-to-t from-[#A06D4D] to-[#E1D8D0] p-6 flex flex-col items-center gap-6">
       <h2 className="text-orange-950 text-5xl font-bold">Your Tasks</h2>
 
-      {/* 🔍 Search Input */}
+      {/* Search Input */}
       <input
         type="text"
         placeholder="Search task by their name"
