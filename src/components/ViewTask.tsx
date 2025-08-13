@@ -4,7 +4,7 @@ import { format, parseISO } from "date-fns";
 
 export default function ViewTask() {
   const dispatch = useAppDispatch();
-  const tasksFromStore = useAppSelector(selectFilteredTasks); // filtered tasks
+  const tasksFromStore = useAppSelector(selectFilteredTasks); 
   const filters = useAppSelector(selectFilters); // current filter state
 
   return (
